@@ -22,7 +22,7 @@ class CreateDappTable extends Migration
             $table->string('secret_key', 32);
             $table->string('callback_url')->nullable();
             $table->string('withdraw_addr')->nullable();
-            $table->enum('status', ['on', 'off', 'waiting'])->default('on');
+            $table->unsignedTinyInteger('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
 
