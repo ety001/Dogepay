@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Dapp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DappController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,11 @@ class DappController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        $dapp_list = Dapp::where('user_id', $user_id)
+                        ->orderBy('id', 'desc')
+                        ->paginate(15);
+        return view('dapp.index', ['dapp_list' => $dapp_list]);
     }
 
     /**

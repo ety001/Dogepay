@@ -13,4 +13,4 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'DappController@index')->name('dapp_index');
