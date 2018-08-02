@@ -12,4 +12,11 @@ return [
     'status'            => 'Status',
     'online'            => 'Online',
     'testing'           => 'Testing',
+    'back'              => 'Back',
+    'description'       => 'Description',
+    'icon'              => 'Icon',
+    'callback_url'      => 'Callback URL',
+    'submit'            => 'Submit',
+    'withdraw_addr'     => 'Withdraw Address(To receive XLM)',
+    'save_success'      => 'Save Success',
 ];

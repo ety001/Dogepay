@@ -14,3 +14,5 @@
 Auth::routes();
 
 Route::get('/', 'DappController@index')->name('dapp_index');
+Route::get('/dapp/create', 'DappController@create')->name('dapp_create');
+Route::post('/dapp/store', 'DappController@store')->name('dapp_store');

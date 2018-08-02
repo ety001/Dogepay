@@ -7,10 +7,15 @@
             <div class="card">
                 <div class="card-header">
                     <span>{{ __('common.dapp') }} {{ __('common.list') }}</span>
-                    <a href="" class="btn btn-success btn-sm float-right">{{ __('common.add') }}</a>
+                    <a href="{{ route('dapp_create') }}" class="btn btn-success btn-sm float-right">{{ __('common.add') }}</a>
                 </div>
 
                 <div class="card-body">
+                @if (session('msg'))
+                    <div class="alert alert-success">
+                        {{ session('msg') }}
+                    </div>
+                @endif
                     @if ($dapp_list->isNotEmpty())
                         <table class="table table-bordered table-hover">
                             <thead>
