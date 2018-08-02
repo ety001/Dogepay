@@ -45,7 +45,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-primary btn-sm">{{ __('common.edit') }}</a>
+                                        <a href="{{ route('dapp_edit', ['dapp' => $dapp->id]) }}"
+                                            class="btn btn-primary btn-sm">
+                                            {{ __('common.edit') }}
+                                        </a>
                                         <a href="{{ route('dapp_destroy', ['dapp' => $dapp->id]) }}"
                                             class="btn btn-danger btn-sm"
                                             onclick="return confirm('{{ __('common.confirm_del') }}')?true:false;">

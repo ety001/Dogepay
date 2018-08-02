@@ -92,7 +92,7 @@ class DappController extends Controller
      */
     public function edit(Dapp $dapp)
     {
-        //
+        return view('dapp.edit', ['dapp' => $dapp]);
     }
 
     /**
@@ -104,7 +104,31 @@ class DappController extends Controller
      */
     public function update(Request $request, Dapp $dapp)
     {
-        //
+        $user_id = Auth::id();
+        if ($dapp->user_id === $user_id) {
+            // update dapp
+            $validatedData = $request->validate([
+                'status' => 'required',
+                'callback_url' => 'required',
+                'withdraw_addr' => 'required',
+            ]);
+
+            if ($request->file('icon_file')) {
+                $icon_path = $request->file('icon_file')->store('dapp_icon');
+                $dapp->icon = $icon_path;
+            }
+            $dapp->description = $request->description;
+            $dapp->callback_url = $request->callback_url;
+            $dapp->withdraw_addr = $request->withdraw_addr;
+            $dapp->status = $request->status;
+            $dapp->save();
+
+            return redirect()
+                    ->route('dapp_index')
+                    ->with('msg', __('common.update'). ' '. __('common.success'));
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
     }
 
     /**
@@ -119,7 +143,9 @@ class DappController extends Controller
         if ($dapp->user_id === $user_id) {
             // destroy dapp
             $dapp->delete();
-            return redirect()->route('dapp_index')->with('msg', __('common.success'));
+            return redirect()
+                    ->route('dapp_index')
+                    ->with('msg', __('common.delete') . ' ' . __('common.success'));
         } else {
             abort(403, 'Unauthorized action.');
         }
