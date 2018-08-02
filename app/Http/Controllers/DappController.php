@@ -115,6 +115,13 @@ class DappController extends Controller
      */
     public function destroy(Dapp $dapp)
     {
-        //
+        $user_id = Auth::id();
+        if ($dapp->user_id === $user_id) {
+            // destroy dapp
+            $dapp->delete();
+            return redirect()->route('dapp_index')->with('msg', __('common.success'));
+        } else {
+            return redirect()->route('dapp_index')->with('err_msg', __('common.no_auth'));
+        }
     }
 }

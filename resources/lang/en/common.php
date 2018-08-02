@@ -19,4 +19,7 @@ return [
     'submit'            => 'Submit',
     'withdraw_addr'     => 'Withdraw Address(To receive XLM)',
     'save_success'      => 'Save Success',
+    'no_auth'           => 'Have no auth to do that',
+    'success'           => 'Success',
+    'confirm_del'       => 'Confirm to delete the Dapp?',
 ];

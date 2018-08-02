@@ -11,11 +11,16 @@
                 </div>
 
                 <div class="card-body">
-                @if (session('msg'))
-                    <div class="alert alert-success">
-                        {{ session('msg') }}
-                    </div>
-                @endif
+                    @if (session('msg'))
+                        <div class="alert alert-success">
+                            {{ session('msg') }}
+                        </div>
+                    @endif
+                    @if (session('err_msg'))
+                        <div class="alert alert-danger">
+                            {{ session('err_msg') }}
+                        </div>
+                    @endif
                     @if ($dapp_list->isNotEmpty())
                         <table class="table table-bordered table-hover">
                             <thead>
@@ -41,7 +46,11 @@
                                     </td>
                                     <td>
                                         <a href="" class="btn btn-primary btn-sm">{{ __('common.edit') }}</a>
-                                        <a href="" class="btn btn-danger btn-sm">{{ __('common.del') }}</a>
+                                        <a href="{{ route('dapp_destroy', ['dapp' => $dapp->id]) }}"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('{{ __('common.confirm_del') }}')?true:false;">
+                                            {{ __('common.del') }}
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
