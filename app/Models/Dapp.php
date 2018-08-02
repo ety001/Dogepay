@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Dapp extends Model
 {
     use SoftDeletes;
-    protected $dates = ['deleted_at'];
+
+    // Status
+    const ONLINE = 1;
+    const TESTING = 0;
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ];
+
     protected $table = 'dapp';
 }

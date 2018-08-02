@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Dapp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DappController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,11 @@ class DappController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+        $dapp_list = Dapp::where('user_id', $user_id)
+                        ->orderBy('id', 'desc')
+                        ->paginate(15);
+        return view('dapp.index', ['dapp_list' => $dapp_list]);
     }
 
     /**
@@ -24,7 +39,7 @@ class DappController extends Controller
      */
     public function create()
     {
-        //
+        return view('dapp.create');
     }
 
     /**
@@ -35,7 +50,27 @@ class DappController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'app_name' => 'bail|required|unique:dapp',
+            'status' => 'required',
+            'icon_file' => 'required',
+            'callback_url' => 'required',
+            'withdraw_addr' => 'required',
+        ]);
+        $user_id = Auth::id();
+        $icon_path = $request->file('icon_file')->store('dapp_icon');
+
+        $dapp = new Dapp;
+        $dapp->user_id = $user_id;
+        $dapp->app_name = $request->app_name;
+        $dapp->description = $request->description;
+        $dapp->icon = $icon_path;
+        $dapp->secret_key = md5($request->app_name.time().rand());
+        $dapp->callback_url = $request->callback_url;
+        $dapp->withdraw_addr = $request->withdraw_addr;
+        $dapp->status = $request->status;
+        $dapp->save();
+        return redirect()->route('dapp_index')->with('msg', __('common.save_success'));
     }
 
     /**
@@ -57,7 +92,7 @@ class DappController extends Controller
      */
     public function edit(Dapp $dapp)
     {
-        //
+        return view('dapp.edit', ['dapp' => $dapp]);
     }
 
     /**
@@ -69,7 +104,31 @@ class DappController extends Controller
      */
     public function update(Request $request, Dapp $dapp)
     {
-        //
+        $user_id = Auth::id();
+        if ($dapp->user_id === $user_id) {
+            // update dapp
+            $validatedData = $request->validate([
+                'status' => 'required',
+                'callback_url' => 'required',
+                'withdraw_addr' => 'required',
+            ]);
+
+            if ($request->file('icon_file')) {
+                $icon_path = $request->file('icon_file')->store('dapp_icon');
+                $dapp->icon = $icon_path;
+            }
+            $dapp->description = $request->description;
+            $dapp->callback_url = $request->callback_url;
+            $dapp->withdraw_addr = $request->withdraw_addr;
+            $dapp->status = $request->status;
+            $dapp->save();
+
+            return redirect()
+                    ->route('dapp_index')
+                    ->with('msg', __('common.update'). ' '. __('common.success'));
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
     }
 
     /**
@@ -80,6 +139,15 @@ class DappController extends Controller
      */
     public function destroy(Dapp $dapp)
     {
-        //
+        $user_id = Auth::id();
+        if ($dapp->user_id === $user_id) {
+            // destroy dapp
+            $dapp->delete();
+            return redirect()
+                    ->route('dapp_index')
+                    ->with('msg', __('common.delete') . ' ' . __('common.success'));
+        } else {
+            abort(403, 'Unauthorized action.');
+        }
     }
 }
