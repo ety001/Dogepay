@@ -121,7 +121,7 @@ class DappController extends Controller
             $dapp->delete();
             return redirect()->route('dapp_index')->with('msg', __('common.success'));
         } else {
-            return redirect()->route('dapp_index')->with('err_msg', __('common.no_auth'));
+            abort(403, 'Unauthorized action.');
         }
     }
 }
