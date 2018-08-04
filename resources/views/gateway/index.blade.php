@@ -27,9 +27,9 @@
                                 <img width="200" src="{{ asset(Storage::url($dapp->icon)) }}" class="img-thumbnail">
                             </div>
                             <div class="col col-sm-auto">
-                                <h2>
-                                    <span class="badge badge-primary">{{ $dapp->app_name }}</span>
-                                </h2>
+                                <h1>
+                                    {{ $dapp->app_name }}
+                                </h1>
                                 <div>{{ __('gateway.request') }}</div>
                                 <h2>
                                     <span id="amount" style="color: red; font-weight: 900;">{{ $order->amount * pow(10, -1 * $order->precision) }}</span> XLM
