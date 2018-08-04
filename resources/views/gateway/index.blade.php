@@ -38,17 +38,14 @@
                                 <h3><span style="color: green;">{{ $order->trade_no }}</span></h3>
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 30px">
-                            <div class="col col-sm-12">
-                                <h2>{{ __('gateway.info1') }}</h2>
-                                <p style="color: red; font-weight: 900;">{{ __('gateway.info2') }}</p>
-                                <div class="form-group">
-                                    <label for="private_key" class="sr-only">{{ __('common.private_key') }}</label>
-                                    <input type="text" class="form-control" id="private_key" placeholder="{{ __('common.private_key') }}">
-                                </div>
-                                <button type="submit" class="btn btn-primary mb-2">{{ __('common.confirm') }} {{ __('common.topay') }}</button>
-                            </div>
-                        </div>
+                        <stellar-pay
+                            l-gateway-info1="{{ __('gateway.info1') }}"
+                            l-gateway-info2="{{ __('gateway.info2') }}"
+                            l-private-key="{{ __('common.private_key') }}"
+                            l-confirm="{{ __('common.confirm') }}"
+                            l-to-pay="{{ __('common.topay') }}"
+                            >
+                        </stellar-pay>
                     </div>
 
                 </div>
