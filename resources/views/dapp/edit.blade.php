@@ -34,7 +34,10 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="dapp_icon">{{ __('common.dapp') }} {{ __('common.icon') }}</label>
+                            <img width="200" src="{{ asset(Storage::url($dapp->icon)) }}" class="img-thumbnail">
+                        </div>
+                        <div class="form-group">
+                            <label for="dapp_icon">{{ __('common.dapp') }} {{ __('common.icon') }} (200 x 200)</label>
                             <input name="icon_file" type="file" class="form-control-file" id="dapp_icon">
                         </div>
                         <div class="form-group">
