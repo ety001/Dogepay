@@ -4,6 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10">
+        @if ($dapp->status == 0)
+            <div class="alert alert-warning" role="alert">
+                {{ __('gateway.test_net') }}
+            </div>
+        @endif
+        </div>
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-header">
                     <span>{{ __('common.payment') }}</span>
@@ -38,12 +45,18 @@
                                 <h3><span style="color: green;">{{ $order->trade_no }}</span></h3>
                             </div>
                         </div>
+                        <hr />
                         <stellar-pay
                             l-gateway-info1="{{ __('gateway.info1') }}"
                             l-gateway-info2="{{ __('gateway.info2') }}"
                             l-private-key="{{ __('common.private_key') }}"
                             l-confirm="{{ __('common.confirm') }}"
                             l-to-pay="{{ __('common.topay') }}"
+                            dapp-status="{{ $dapp->status }}"
+                            receiver="{{ $dapp->withdraw_addr }}"
+                            amount="{{ $order->amount * pow(10, -1 * $order->precision) }}"
+                            memo="dogepay:{{ $order->id }}"
+                            callback-url="{{ $dapp->callback_url }}"
                             >
                         </stellar-pay>
                     </div>
