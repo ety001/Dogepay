@@ -58,7 +58,7 @@ class DappController extends Controller
             'withdraw_addr' => 'required',
         ]);
         $user_id = Auth::id();
-        $icon_path = $request->file('icon_file')->store('dapp_icon');
+        $icon_path = $request->file('icon_file')->store('public/dapp_icon');
 
         $dapp = new Dapp;
         $dapp->user_id = $user_id;
@@ -114,7 +114,7 @@ class DappController extends Controller
             ]);
 
             if ($request->file('icon_file')) {
-                $icon_path = $request->file('icon_file')->store('dapp_icon');
+                $icon_path = $request->file('icon_file')->store('public/dapp_icon');
                 $dapp->icon = $icon_path;
             }
             $dapp->description = $request->description;

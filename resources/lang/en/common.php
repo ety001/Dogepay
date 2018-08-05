@@ -24,4 +24,8 @@ return [
     'confirm_del'       => 'Confirm to delete the Dapp?',
     'update'            => 'Update',
     'delete'            => 'Delete',
+    'payment'           => 'Payment',
+    'topay'             => 'To Pay',
+    'confirm'           => 'Confirm',
+    'private_key'       => 'Private KEY',
 ];
