@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group">
                             <label for="app_descp">{{ __('common.dapp') }} {{ __('common.description') }}</label>
-                            <textarea name="description" value="{{ $dapp->description }}" class="form-control" id="app_descp" rows="3"></textarea>
+                            <textarea name="description" class="form-control" id="app_descp" rows="3">{{ $dapp->description }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="callback_url">{{ __('common.callback_url') }} *</label>
