@@ -39,7 +39,8 @@
             'receiver',
             'amount',
             'memo',
-            'callbackUrl'
+            'callbackUrl',
+            'orderId'
         ],
         methods: {
             topay: function(e) {
@@ -92,10 +93,26 @@
                                 console.log('\nSuccess! View the transaction at: ');
                                 console.log(trans._links.transaction.href);
                                 const callbackURL = this.callbackUrl;
-                                this.displaySuccMsg('Success! The page will redirect to the merchant\'s shop ...', function() {
-                                    // console.log(callbackURL);
-                                    window.location = callbackURL + '?tx=' + trans.hash
-                                });
+                                let updateURL = `/payment/${this.orderId}/${trans.hash}`;
+                                if (this.dappStatus != 1) {
+                                    updateURL = `${updateURL}/1`;
+                                }
+                                window.axios.get(updateURL)
+                                    .then((res) => {
+                                        console.log(res);
+                                        if (res.status == 200 && res.data.msg == 'ok') {
+                                            this.displaySuccMsg('Success! The page will redirect to the merchant\'s shop ...', function() {
+                                                // console.log(callbackURL);
+                                                window.location = callbackURL + '?tx=' + trans.hash
+                                            });
+                                        } else {
+                                            this.displayErrMsg(res);
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log('update status err', err);
+                                        this.displayErrMsg(err);
+                                    });
                             })
                             .catch((err) => {
                                 this.payStatus = false;
