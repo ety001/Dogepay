@@ -95,6 +95,7 @@
                                 console.log(trans._links.transaction.href);
                                 const callbackURL = this.callbackUrl;
                                 let updateURL = `/payment/${this.orderId}/${trans.hash}`;
+                                const tradeNo = this.tradeNo;
                                 if (this.dappStatus != 1) {
                                     updateURL = `${updateURL}/1`;
                                 }
@@ -104,7 +105,7 @@
                                         if (res.status == 200 && res.data.msg == 'ok') {
                                             this.displaySuccMsg('Success! The page will redirect to the merchant\'s shop ...', function() {
                                                 // console.log(callbackURL);
-                                                window.location = callbackURL + '?tx=' + trans.hash + '&trade_no=' + this.tradeNo;
+                                                window.location = `${callbackURL}?tx=${trans.hash}&trade_no=${tradeNo}`;
                                             });
                                         } else {
                                             this.displayErrMsg(res);
