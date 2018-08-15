@@ -5,7 +5,7 @@
             <p style="color: red; font-weight: 900;">{{ lGatewayInfo2 }}</p>
             <div class="form-group mb-2">
                 <label for="private_key" class="sr-only">{{ lPrivateKey }}</label>
-                <input v-model="privateKey" type="text" class="form-control" id="private_key" :placeholder="lPrivateKey">
+                <input v-model="privateKey" type="password" class="form-control" id="private_key" :placeholder="lPrivateKey">
             </div>
             <div class="alert alert-danger" role="alert" v-if="alertMsg != null">{{ alertMsg }}</div>
             <div class="alert alert-success" role="alert" v-if="alertSuccMsg != null">{{ alertSuccMsg }}</div>
