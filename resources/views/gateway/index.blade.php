@@ -58,6 +58,7 @@
                             memo="dogepay:{{ $order->id }}"
                             callback-url="{{ $dapp->callback_url }}"
                             order-id="{{ $order->id }}"
+                            trade-no="{{ $order->trade_no }}"
                             >
                         </stellar-pay>
                     </div>

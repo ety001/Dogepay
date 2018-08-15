@@ -40,7 +40,8 @@
             'amount',
             'memo',
             'callbackUrl',
-            'orderId'
+            'orderId',
+            'tradeNo'
         ],
         methods: {
             topay: function(e) {
@@ -103,7 +104,7 @@
                                         if (res.status == 200 && res.data.msg == 'ok') {
                                             this.displaySuccMsg('Success! The page will redirect to the merchant\'s shop ...', function() {
                                                 // console.log(callbackURL);
-                                                window.location = callbackURL + '?tx=' + trans.hash
+                                                window.location = callbackURL + '?tx=' + trans.hash + '&trade_no=' + this.tradeNo;
                                             });
                                         } else {
                                             this.displayErrMsg(res);
