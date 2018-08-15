@@ -68,4 +68,56 @@ class GatewayController extends Controller
             'order' => $order,
         ]);
     }
+
+    /**
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function checktx(Order $order, $tx, $test = false)
+    {
+        try {
+            $net = 'https://horizon.stellar.org';
+            $test_net = 'https://horizon-testnet.stellar.org';
+            $url = ( $test === '1' ? $test_net : $net ) . "/transactions/{$tx}";
+            $content = json_decode(file_get_contents($url), true);
+            if (isset($content['memo']) && 'dogepay:'.$order->id === $content['memo']) {
+                $content = json_decode(file_get_contents($url.'/payments'), true);
+                if (isset($content['_embedded']['records'][0]['to'])) {
+                    $from = $content['_embedded']['records'][0]['from'];
+                    $to = $content['_embedded']['records'][0]['to'];
+                    $amount = $content['_embedded']['records'][0]['amount'];
+                    $dapp = Dapp::find($order->dapp_id);
+                    if ($dapp->withdraw_addr == $to
+                        && $order->amount * pow(10, 7 - $order->precision) == $amount * pow(10, 7)) {
+                        $order->status = Order::PAID;
+                        $order->save();
+                        return response()->json([
+                            'status' => true,
+                            'msg' => 'ok',
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status' => false,
+                            'msg' => 'wrong data',
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'msg' => 'wrong address',
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'wrong memo order id',
+                ]);
+            }
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'msg' => $e->getMessage(),
+            ]);
+        }
+    }
 }

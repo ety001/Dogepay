@@ -21,3 +21,4 @@ Route::get('/dapp/edit/{dapp}', 'DappController@edit')->name('dapp_edit');
 Route::post('/dapp/update/{dapp}', 'DappController@update')->name('dapp_update');
 
 Route::get('/payment/{dapp}', 'GatewayController@index')->name('gateway');
+Route::get('/payment/{order}/{tx}/{test?}', 'GatewayController@checktx')->name('checktx');

@@ -57,6 +57,7 @@
                             amount="{{ $order->amount * pow(10, -1 * $order->precision) }}"
                             memo="dogepay:{{ $order->id }}"
                             callback-url="{{ $dapp->callback_url }}"
+                            order-id="{{ $order->id }}"
                             >
                         </stellar-pay>
                     </div>
